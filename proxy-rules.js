@@ -28,7 +28,7 @@ const REGION_FILTERS = [
   { name: "韩国", regex: /(广韩|韩国|韓國|KR|首尔|春川|🇰🇷|Korea)/i },
   { name: "美国", regex: /(广美|美|US|纽约|波特兰|达拉斯|俄勒|凤凰城|费利蒙|拉斯|洛杉|圣何塞|圣克拉|西雅|芝加|🇺🇸|United States)/i },
   { name: "英国", regex: /(英国|英|伦敦|UK|United Kingdom|🇬🇧|London)/i },
-  { name: "其他", regex: /^(?!.*(直连|拒绝|官网|失败|剩余|到期|异常|广港|香港|HK|Hong Kong|🇭🇰|HongKong|广台|台湾|台灣|TW|Tai Wan|🇹🇼|🇨🇳|TaiWan|Taiwan|广日|日本|JP|川日|东京|大阪|泉日|埼玉|沪日|深日|🇯🇵|Japan|广新|新加坡|SG|坡|狮城|🇸🇬|Singapore|广韩|韩国|韓國|KR|首尔|春川|🇰🇷|Korea|广美|美|US|纽约|波特兰|达拉斯|俄勒|凤凰城|费利蒙|硅谷|拉斯|洛杉|圣何塞|圣克拉|西雅|芝加|🇺🇸|United States|英国|UK|United Kingdom|伦敦|英|London|🇬🇧)).*$/i }
+  { name: "其他", regex: /^(?!.*(直连|拒绝|官网|失败|剩余流量|距离下次重置|套餐到期|异常|广港|香港|HK|Hong Kong|🇭🇰|HongKong|广台|台湾|台灣|TW|Tai Wan|🇹🇼|🇨🇳|TaiWan|Taiwan|广日|日本|JP|川日|东京|大阪|泉日|埼玉|沪日|深日|🇯🇵|Japan|广新|新加坡|SG|坡|狮城|🇸🇬|Singapore|广韩|韩国|韓國|KR|首尔|春川|🇰🇷|Korea|广美|美|US|纽约|波特兰|达拉斯|俄勒|凤凰城|费利蒙|硅谷|拉斯|洛杉|圣何塞|圣克拉|西雅|芝加|🇺🇸|United States|英国|UK|United Kingdom|伦敦|英|London|🇬🇧)).*$/i }
 ];
  
 const NEW_RULES = [
@@ -108,7 +108,7 @@ const main = (config) => {
     config.proxies.push({ name: "直连节点", type: "direct" });
   }
  
-  const allNodeNames = config.proxies.map(p => p.name).filter(n => n !== "直连节点" && n !== "REJECT");
+  const allNodeNames = config.proxies.map(p => p.name).filter(n => n !== "直连节点" && n !== "REJECT" && n !== "剩余流量" && n !== "距离下次重置" && n !== "套餐到期");
   const regionGroups = [], regionAutoRefs = [];
  
   for (const { name, regex } of REGION_FILTERS) {
