@@ -115,8 +115,8 @@ const main = (config) => {
     const matched = allNodeNames.filter(n => regex.test(n));
     if (!matched.length) continue;
     const a = `${name}-自动`, m = `${name}-手动`, f = `${name}-故转`;
-    regionGroups.push({ name: f, type: "fallback", proxies: [a, m], url: "https://1.1.1.1/cdn-cgi/trace", interval: 3600 });
-    regionGroups.push({ name: a, type: "url-test", proxies: matched, url: "https://1.1.1.1/cdn-cgi/trace", interval: 3600, tolerance: 150 });
+    regionGroups.push({ name: f, type: "fallback", proxies: [a, m], url: "https://www.qualcomm.cn/generate_204", interval: 3600 });
+    regionGroups.push({ name: a, type: "url-test", proxies: matched, url: "https://www.qualcomm.cn/generate_204", interval: 3600, tolerance: 150 });
     regionGroups.push({ name: m, type: "select", proxies: matched });
     regionAutoRefs.push(a);
   }
@@ -126,7 +126,7 @@ const main = (config) => {
       name: "所有-自动",
       type: "url-test",
       proxies: allNodeNames,
-      url: "https://1.1.1.1/cdn-cgi/trace",
+      url: "https://www.qualcomm.cn/generate_204",
       interval: 3600,
       tolerance: 150
     });
@@ -144,16 +144,16 @@ const main = (config) => {
       name: "不包含香港-自动",
       type: "url-test",
       proxies: nonHK,
-      url: "https://1.1.1.1/cdn-cgi/trace",
+      url: "https://www.qualcomm.cn/generate_204",
       interval: 3600,
       tolerance: 150
     });
   }
  
-  regionGroups.push({ name: "直连", type: "url-test", proxies: ["直连节点"], url: "https://1.1.1.1/cdn-cgi/trace", interval: 3600, tolerance: 150 });
+  regionGroups.push({ name: "直连", type: "url-test", proxies: ["直连节点"], url: "https://www.qualcomm.cn/generate_204", interval: 3600, tolerance: 150 });
  
   if (!regionGroups.some(g => g.name === "其他-故转")) {
-    regionGroups.push({ name: "其他-故转", type: "fallback", proxies: ["直连", "REJECT"], url: "https://1.1.1.1/cdn-cgi/trace", interval: 3600 });
+    regionGroups.push({ name: "其他-故转", type: "fallback", proxies: ["直连", "REJECT"], url: "https://www.qualcomm.cn/generate_204", interval: 3600 });
   }
 
   // 新增：所有手动
