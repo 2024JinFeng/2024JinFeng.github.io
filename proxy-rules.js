@@ -1,26 +1,23 @@
 const BASE_ALL = ["所有-自动","不包含香港-自动","香港-故转","台湾-故转","日本-故转","新加坡-故转","韩国-故转","美国-故转","英国-故转","其他-故转"];
 const BASE_WITHOUT_HK_ALL = ["不包含香港-自动","台湾-故转","日本-故转","新加坡-故转","韩国-故转","美国-故转","英国-故转","其他-故转"];
 const APP_GROUPS = [
-  { name: "🧠 ChatGPT", proxies: [...BASE_WITHOUT_HK_ALL, "REJECT"] },
-  { name: "🤖 OtherAi", proxies: [...BASE_ALL, "REJECT"] },
-  { name: "💻 GitHub", proxies: [...BASE_ALL, "REJECT"] },
-  { name: "💃 TikTok", proxies: [...BASE_WITHOUT_HK_ALL, "REJECT"] },
-  { name: "📷 Instagram", proxies: [...BASE_ALL, "REJECT"] },
-  { name: "✈️ Telegram", proxies: [...BASE_ALL, "REJECT"] },
-  { name: "🐦 Twitter & Facebook & WhatsApp", proxies: [...BASE_ALL, "REJECT"] },
-  { name: "📺 YouTube", proxies: [...BASE_ALL, "REJECT"] },
-  { name: "🎧 Spotify", proxies: [...BASE_ALL, "直连", "REJECT"] },
-  { name: "🏰 Disney", proxies: [...BASE_ALL, "REJECT"] },
-  { name: "🎥 Netflix", proxies: [...BASE_ALL, "REJECT"] },
-  { name: "🛒 Amazon", proxies: [...BASE_ALL, "直连", "REJECT"] },
-  { name: "🍎 Apple", proxies: [...BASE_ALL, "直连", "REJECT"] },
-  { name: "🔍 Google", proxies: [...BASE_ALL, "REJECT"] },
-  { name: "🧪 TEST", proxies: [...BASE_ALL, "直连", "REJECT"] },
-  { name: "🚫 Block", proxies: ["REJECT"] },
-  { name: "🌐 Emby国外线路", proxies: [...BASE_ALL, "REJECT"] },
+  { name: "🧠 ChatGPT", proxies: [...BASE_WITHOUT_HK_ALL, "REJECT", "不包含香港-所有手动"] },
+  { name: "🤖 OtherAi", proxies: [...BASE_ALL, "REJECT", "不包含香港-所有手动"] },
+  { name: "💻 GitHub", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
+  { name: "💃 TikTok", proxies: [...BASE_WITHOUT_HK_ALL, "REJECT", "不包含香港-所有手动"] },
+  { name: "📷 Instagram", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
+  { name: "✈️ Telegram", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
+  { name: "🐦 Twitter & Facebook & WhatsApp", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
+  { name: "📺 YouTube", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
+  { name: "🎧 Spotify", proxies: [...BASE_ALL, "直连", "REJECT", "所有手动"] },
+  { name: "🏰 Disney", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
+  { name: "🎥 Netflix", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
+  { name: "🍎 Apple", proxies: [...BASE_ALL, "直连", "REJECT", "所有手动"] },
+  { name: "🔍 Google", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
+  { name: "🌐 Emby国外线路", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
   { name: "🌐 Emby国内线路", proxies: ["直连"] },
-  { name: "🐼 国内", proxies: [...BASE_ALL, "直连", "REJECT"] },
-  { name: "🚀 国外", proxies: [...BASE_ALL, "REJECT"] }
+  { name: "🐼 国内", proxies: [...BASE_ALL, "直连", "REJECT", "所有手动"] },
+  { name: "🚀 国外", proxies: [...BASE_ALL, "REJECT", "所有手动"] }
 ];
  
 const REGION_FILTERS = [
@@ -49,11 +46,9 @@ const NEW_RULES = [
   "RULE-SET,YouTube / Domain,📺 YouTube","RULE-SET,Disney / Domain,🏰 Disney",
   "RULE-SET,Netflix / Domain,🎥 Netflix","RULE-SET,Netflix / IP,🎥 Netflix,no-resolve",
   "RULE-SET,Spotify / Domain,🎧 Spotify","RULE-SET,Spotify / IP,🎧 Spotify,no-resolve",
-  "RULE-SET,Amazon / Domain,🛒 Amazon","RULE-SET,Amazon / IP,🛒 Amazon,no-resolve",
   "RULE-SET,Apple / Domain,🍎 Apple","RULE-SET,Apple / IP,🍎 Apple,no-resolve",
   "RULE-SET,Apple-CN / Domain,🍎 Apple","RULE-SET,Google / Domain,🔍 Google",
   "RULE-SET,Google / IP,🔍 Google,no-resolve","RULE-SET,Google-Play / Domain,🔍 Google",
-  "RULE-SET,TEST / Domain,🧪 TEST","RULE-SET,Block / Domain,🚫 Block",
   "RULE-SET,Emby-Proxy / Domain,🌐 Emby国外线路","RULE-SET,Emby-Direct / Domain,🌐 Emby国内线路",
   "RULE-SET,Direct / Domain,🐼 国内","RULE-SET,ChinaMax / Domain,🐼 国内",
   "RULE-SET,ChinaMax / IP,🐼 国内,no-resolve","RULE-SET,China / Domain,🐼 国内",
@@ -87,16 +82,12 @@ const RULE_PROVIDERS = {
   "Netflix / IP": { type: "http", interval: 43200, behavior: "ipcidr", format: "mrs", url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/refs/heads/master/rule/Clash/Netflix/Netflix_OCD_IP.mrs" },
   "Spotify / Domain": { type: "http", interval: 43200, behavior: "classical", format: "text", url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/refs/heads/master/rule/Clash/Spotify/Spotify.list" },
   "Spotify / IP": { type: "http", interval: 43200, behavior: "ipcidr", format: "mrs", url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/refs/heads/master/rule/Clash/Spotify/Spotify_OCD_IP.mrs" },
-  "Amazon / Domain": { type: "http", interval: 43200, behavior: "domain", format: "mrs", url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/refs/heads/master/rule/Clash/Amazon/Amazon_OCD_Domain.mrs" },
-  "Amazon / IP": { type: "http", interval: 43200, behavior: "ipcidr", format: "mrs", url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/refs/heads/master/rule/Clash/Amazon/Amazon_OCD_IP.mrs" },
   "Apple / Domain": { type: "http", interval: 43200, behavior: "classical", format: "text", url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/refs/heads/master/rule/Clash/Apple/Apple.list" },
   "Apple / IP": { type: "http", interval: 43200, behavior: "ipcidr", format: "mrs", url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/refs/heads/master/rule/Clash/Apple/Apple_OCD_IP.mrs" },
   "Apple-CN / Domain": { type: "http", interval: 43200, behavior: "domain", format: "mrs", url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs" },
   "Google / Domain": { type: "http", interval: 43200, behavior: "classical", format: "text", url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/refs/heads/master/rule/Clash/Google/Google.list" },
   "Google / IP": { type: "http", interval: 43200, behavior: "ipcidr", format: "mrs", url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/refs/heads/master/rule/Clash/Google/Google_OCD_IP.mrs" },
   "Google-Play / Domain": { type: "http", interval: 43200, behavior: "classical", format: "text", url: "https://raw.githubusercontent.com/2024JinFeng/clash/refs/heads/main/google%20play.list" },
-  "TEST / Domain": { type: "http", interval: 43200, behavior: "classical", format: "text", url: "https://raw.githubusercontent.com/liandu2024/clash/refs/heads/main/list/Check.list" },
-  "Block / Domain": { type: "http", interval: 43200, behavior: "classical", format: "text", url: "https://raw.githubusercontent.com/liandu2024/clash/refs/heads/main/list/Block.list" },
   "Emby-Proxy / Domain": { type: "http", interval: 43200, behavior: "classical", format: "text", url: "https://raw.githubusercontent.com/2024JinFeng/clash/refs/heads/main/Emby-Proxy.list" },
   "Emby-Direct / Domain": { type: "http", interval: 43200, behavior: "classical", format: "text", url: "https://raw.githubusercontent.com/2024JinFeng/clash/refs/heads/main/Emby-Direct.list" },
   "Direct / Domain": { type: "http", interval: 43200, behavior: "domain", format: "mrs", url: "https://raw.githubusercontent.com/peiyingyao/Rule-for-OCD/refs/heads/master/rule/Clash/Direct/Direct_OCD_Domain.mrs" },
@@ -124,8 +115,8 @@ const main = (config) => {
     const matched = allNodeNames.filter(n => regex.test(n));
     if (!matched.length) continue;
     const a = `${name}-自动`, m = `${name}-手动`, f = `${name}-故转`;
-    regionGroups.push({ name: f, type: "fallback", proxies: [a, m], url: "https://www.gstatic.com/generate_204", interval: 3600 });
-    regionGroups.push({ name: a, type: "url-test", proxies: matched, url: "https://www.gstatic.com/generate_204", interval: 3600, tolerance: 150 });
+    regionGroups.push({ name: f, type: "fallback", proxies: [a, m], url: "https://1.1.1.1/cdn-cgi/trace", interval: 3600 });
+    regionGroups.push({ name: a, type: "url-test", proxies: matched, url: "https://1.1.1.1/cdn-cgi/trace", interval: 3600, tolerance: 150 });
     regionGroups.push({ name: m, type: "select", proxies: matched });
     regionAutoRefs.push(a);
   }
@@ -135,7 +126,7 @@ const main = (config) => {
       name: "所有-自动",
       type: "url-test",
       proxies: allNodeNames,
-      url: "https://www.gstatic.com/generate_204",
+      url: "https://1.1.1.1/cdn-cgi/trace",
       interval: 3600,
       tolerance: 150
     });
@@ -153,13 +144,38 @@ const main = (config) => {
       name: "不包含香港-自动",
       type: "url-test",
       proxies: nonHK,
-      url: "https://www.gstatic.com/generate_204",
+      url: "https://1.1.1.1/cdn-cgi/trace",
       interval: 3600,
       tolerance: 150
     });
   }
  
-  regionGroups.push({ name: "直连", type: "url-test", proxies: ["直连节点"], url: "http://www.baidu.com/generate_204", interval: 3600, tolerance: 150 });
+  regionGroups.push({ name: "直连", type: "url-test", proxies: ["直连节点"], url: "https://1.1.1.1/cdn-cgi/trace", interval: 3600, tolerance: 150 });
+ 
+  if (!regionGroups.some(g => g.name === "其他-故转")) {
+    regionGroups.push({ name: "其他-故转", type: "fallback", proxies: ["直连", "REJECT"], url: "https://1.1.1.1/cdn-cgi/trace", interval: 3600 });
+  }
+
+  // 🔥 新增：所有手动
+  const allManualProxies = allNodeNames.filter(n => n !== "直连节点" && n !== "REJECT");
+  if (allManualProxies.length > 0) {
+    regionGroups.push({
+      name: "所有手动",
+      type: "select",
+      proxies: allManualProxies
+    });
+  }
+
+  // 🔥 新增：不包含香港-所有手动
+  const hkRegex = REGION_FILTERS[0].regex;
+  const nonHKManualProxies = allNodeNames.filter(n => n !== "直连节点" && n !== "REJECT" && !hkRegex.test(n));
+  if (nonHKManualProxies.length > 0) {
+    regionGroups.push({
+      name: "不包含香港-所有手动",
+      type: "select",
+      proxies: nonHKManualProxies
+    });
+  }
  
   const fallbackNames = regionGroups.filter(g => g.name.endsWith("-故转") || g.name === "所有-自动" || g.name === "不包含香港-自动").map(g => g.name);
   const GLOBAL = { name: "GLOBAL", type: "select", proxies: [...fallbackNames, "直连", "REJECT"] };
