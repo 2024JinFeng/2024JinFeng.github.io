@@ -108,7 +108,8 @@ const main = (config) => {
     config.proxies.push({ name: "直连节点", type: "direct" });
   }
  
-  const allNodeNames = config.proxies.map(p => p.name);
+  // 🔥 关键修复：生成节点列表时，将直连节点和REJECT彻底踢出去，只保留纯粹机场节点！
+  const allNodeNames = config.proxies.map(p => p.name).filter(n => n !== "直连节点" && n !== "REJECT");
   const regionGroups = [], regionAutoRefs = [];
  
   for (const { name, regex } of REGION_FILTERS) {
@@ -125,7 +126,7 @@ const main = (config) => {
     regionGroups.push({
       name: "所有-自动",
       type: "url-test",
-      proxies: allNodeNames,
+      proxies: allNodeNames, // 这里已经是纯净的节点，绝不会有直连节点！
       url: "https://www.qualcomm.cn/generate_204",
       interval: 3600,
       tolerance: 150
@@ -178,7 +179,9 @@ const main = (config) => {
   }
  
   const fallbackNames = regionGroups.filter(g => g.name.endsWith("-故转") || g.name === "所有-自动" || g.name === "不包含香港-自动").map(g => g.name);
-  const GLOBAL = { name: "GLOBAL", type: "select", proxies: [...fallbackNames, "直连", "REJECT"] };
+  
+  // 🔥 关键修复：GLOBAL组 完全复制 OtherAi 组的节点排列
+  const GLOBAL = { name: "GLOBAL", type: "select", proxies: [...BASE_ALL, "所有手动", "不包含香港-所有手动", "REJECT"] };
  
   const existing = regionGroups.map(g => g.name);
   const business = APP_GROUPS.map(g => ({
