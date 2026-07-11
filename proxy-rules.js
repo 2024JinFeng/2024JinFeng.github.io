@@ -1,23 +1,23 @@
 const BASE_ALL = ["所有-自动","不包含香港-自动","香港-故转","台湾-故转","日本-故转","新加坡-故转","韩国-故转","美国-故转","英国-故转","其他-故转"];
 const BASE_WITHOUT_HK_ALL = ["不包含香港-自动","台湾-故转","日本-故转","新加坡-故转","韩国-故转","美国-故转","英国-故转","其他-故转"];
 const APP_GROUPS = [
-  { name: "🧠 ChatGPT", proxies: [...BASE_WITHOUT_HK_ALL, "REJECT", "不包含香港-所有手动"] },
-  { name: "🤖 OtherAi", proxies: [...BASE_ALL, "REJECT", "不包含香港-所有手动"] },
-  { name: "💻 GitHub", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
-  { name: "💃 TikTok", proxies: [...BASE_WITHOUT_HK_ALL, "REJECT", "不包含香港-所有手动"] },
-  { name: "📷 Instagram", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
-  { name: "✈️ Telegram", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
-  { name: "🐦 Twitter & Facebook & WhatsApp", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
-  { name: "📺 YouTube", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
-  { name: "🎧 Spotify", proxies: [...BASE_ALL, "直连", "REJECT", "所有手动"] },
-  { name: "🏰 Disney", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
-  { name: "🎥 Netflix", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
-  { name: "🍎 Apple", proxies: [...BASE_ALL, "直连", "REJECT", "所有手动"] },
-  { name: "🔍 Google", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
-  { name: "🌐 Emby国外线路", proxies: [...BASE_ALL, "REJECT", "所有手动"] },
+  { name: "🧠 ChatGPT", proxies: [...BASE_WITHOUT_HK_ALL, "所有手动", "不包含香港-所有手动", "REJECT"] },
+  { name: "🤖 OtherAi", proxies: [...BASE_ALL, "所有手动", "不包含香港-所有手动", "REJECT"] },
+  { name: "💻 GitHub", proxies: [...BASE_ALL, "所有手动", "REJECT"] },
+  { name: "💃 TikTok", proxies: [...BASE_WITHOUT_HK_ALL, "所有手动", "不包含香港-所有手动", "REJECT"] },
+  { name: "📷 Instagram", proxies: [...BASE_ALL, "所有手动", "REJECT"] },
+  { name: "✈️ Telegram", proxies: [...BASE_ALL, "所有手动", "REJECT"] },
+  { name: "🐦 Twitter & Facebook & WhatsApp", proxies: [...BASE_ALL, "所有手动", "REJECT"] },
+  { name: "📺 YouTube", proxies: [...BASE_ALL, "所有手动", "REJECT"] },
+  { name: "🎧 Spotify", proxies: [...BASE_ALL, "直连", "所有手动", "REJECT"] },
+  { name: "🏰 Disney", proxies: [...BASE_ALL, "所有手动", "REJECT"] },
+  { name: "🎥 Netflix", proxies: [...BASE_ALL, "所有手动", "REJECT"] },
+  { name: "🍎 Apple", proxies: [...BASE_ALL, "直连", "所有手动", "REJECT"] },
+  { name: "🔍 Google", proxies: [...BASE_ALL, "所有手动", "REJECT"] },
+  { name: "🌐 Emby国外线路", proxies: [...BASE_ALL, "所有手动", "REJECT"] },
   { name: "🌐 Emby国内线路", proxies: ["直连"] },
-  { name: "🐼 国内", proxies: [...BASE_ALL, "直连", "REJECT", "所有手动"] },
-  { name: "🚀 国外", proxies: [...BASE_ALL, "REJECT", "所有手动"] }
+  { name: "🐼 国内", proxies: [...BASE_ALL, "直连", "所有手动", "REJECT"] },
+  { name: "🚀 国外", proxies: [...BASE_ALL, "所有手动", "REJECT"] }
 ];
  
 const REGION_FILTERS = [
@@ -156,7 +156,7 @@ const main = (config) => {
     regionGroups.push({ name: "其他-故转", type: "fallback", proxies: ["直连", "REJECT"], url: "https://1.1.1.1/cdn-cgi/trace", interval: 3600 });
   }
 
-  // 🔥 新增：所有手动
+  // 新增：所有手动
   const allManualProxies = allNodeNames.filter(n => n !== "直连节点" && n !== "REJECT");
   if (allManualProxies.length > 0) {
     regionGroups.push({
@@ -166,7 +166,7 @@ const main = (config) => {
     });
   }
 
-  // 🔥 新增：不包含香港-所有手动
+  // 新增：不包含香港-所有手动
   const hkRegex = REGION_FILTERS[0].regex;
   const nonHKManualProxies = allNodeNames.filter(n => n !== "直连节点" && n !== "REJECT" && !hkRegex.test(n));
   if (nonHKManualProxies.length > 0) {
