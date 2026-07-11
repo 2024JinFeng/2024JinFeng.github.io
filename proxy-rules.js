@@ -121,14 +121,23 @@ const main = (config) => {
     regionAutoRefs.push(a);
   }
  
-  if (allNodeNames.length > 0) {
+  const ALL_REGEX = /(广港|香港|HK|Hong Kong|🇭🇰|HongKong|广台|台湾|台灣|TW|Tai Wan|🇹🇼|🇨🇳|TaiWan|Taiwan|广日|日本|JP|川日|东京|大阪|泉日|埼玉|沪日|深日|🇯🇵|Japan|广新|新加坡|SG|坡|狮城|🇸🇬|Singapore|广韩|韩国|韓國|KR|首尔|春川|🇰🇷|Korea|广美|美|US|纽约|波特兰|达拉斯|俄勒|凤凰城|费利蒙|硅谷|拉斯|洛杉|圣何塞|圣克拉|西雅|芝加|🇺🇸|United States|英国|UK|United Kingdom|伦敦|英|London|🇬🇧)/i;
+  
+  const autoProxies = allNodeNames.filter(n => ALL_REGEX.test(n));
+  if (autoProxies.length > 0) {
     regionGroups.push({
       name: "所有-自动",
       type: "url-test",
-      proxies: allNodeNames,
+      proxies: autoProxies,
       url: "https://www.qualcomm.cn/generate_204",
       interval: 3600,
       tolerance: 150
+    });
+  } else {
+    regionGroups.push({
+      name: "所有-自动",
+      type: "select",
+      proxies: ["REJECT"]
     });
   }
  
@@ -148,20 +157,32 @@ const main = (config) => {
       interval: 3600,
       tolerance: 150
     });
+  } else {
+    regionGroups.push({
+      name: "不包含香港-自动",
+      type: "select",
+      proxies: ["REJECT"]
+    });
   }
  
   regionGroups.push({ name: "直连", type: "url-test", proxies: ["直连节点"], url: "https://www.qualcomm.cn/generate_204", interval: 3600, tolerance: 150 });
  
   if (!regionGroups.some(g => g.name === "其他-故转")) {
-    regionGroups.push({ name: "其他-故转", type: "fallback", proxies: ["直连", "REJECT"], url: "https://www.qualcomm.cn/generate_204", interval: 3600 });
+    regionGroups.push({ name: "其他-故转", type: "fallback", proxies: ["REJECT"], url: "https://www.qualcomm.cn/generate_204", interval: 3600 });
   }
 
-  const allManualProxies = allNodeNames.filter(n => n !== "直连节点" && n !== "REJECT");
+  const allManualProxies = allNodeNames.filter(n => ALL_REGEX.test(n));
   if (allManualProxies.length > 0) {
     regionGroups.push({
       name: "所有手动",
       type: "select",
       proxies: allManualProxies
+    });
+  } else {
+    regionGroups.push({
+      name: "所有手动",
+      type: "select",
+      proxies: ["REJECT"]
     });
   }
 
@@ -172,6 +193,12 @@ const main = (config) => {
       name: "不包含香港-所有手动",
       type: "select",
       proxies: nonHKManualProxies
+    });
+  } else {
+    regionGroups.push({
+      name: "不包含香港-所有手动",
+      type: "select",
+      proxies: ["REJECT"]
     });
   }
  
